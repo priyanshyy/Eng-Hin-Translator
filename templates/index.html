@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English-Hindi Translator</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>English-Hindi Translator</h1>
+        <div class="translator-box">
+            <textarea id="englishText" placeholder="Enter English text here..."></textarea>
+            <button onclick="translate()">Translate</button>
+            <div id="translationResult" class="result-box"></div>
+        </div>
+    </div>
+
+    <script>
+        async function translate() {
+    const text = document.getElementById('englishText').value;
+    const response = await fetch('http://127.0.0.1:5000/translate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: text }),
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        document.getElementById('translationResult').innerText = data.translation;
+    } else {
+        document.getElementById('translationResult').innerText = 'Error: ' + response.statusText;
+    }
+}
+
+    </script>
+</body>
+</html>
